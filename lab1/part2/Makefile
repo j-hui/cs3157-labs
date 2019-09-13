@@ -35,5 +35,5 @@ gmp-$(VER)/gmp.h: gmp-$(VER)
 gmp-$(VER)/libgmp.la: gmp-$(VER) gmp-$(VER)/gmp.h
 	cd $^ && ./configure && make -j$$(nproc)
 clean:
-	rm -rf *.o main a.out gmp-$(VER)
+	rm -rf *.o main convert a.out gmp-$(VER)
 .PHONY: clean default lib
