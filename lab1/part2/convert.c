@@ -56,7 +56,7 @@ int main(void)
 	do {
 		mpz_sub(a, a, b);
 		if (mpz_get_ui(a) < strlen(s))
-			printf("%c", s[mpz_get_ui(a)]);
+			printf("%c", s[strlen(s) - mpz_get_ui(a) - 1]);
 		else
 			printf("0");
 
