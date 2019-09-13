@@ -43,9 +43,11 @@ int main(void)
 
 	s = mpz_get_str(NULL, 10, b);
 	printf("unsigned dec: %s\n", s);
+	free(s);
 
 	s = mpz_get_str(NULL, 16, b);
 	printf("hex:          %s\n", s);
+	free(s);
 
 	s = mpz_get_str(NULL, 2, b);
 
@@ -72,6 +74,7 @@ int main(void)
 		mpz_set_str(c, "0", 10);
 	} while (mpz_cmp(a, c));
 	printf("\n");
+	free(s);
 
 	mpz_clears(a, b, c, NULL);
 	return 0;
