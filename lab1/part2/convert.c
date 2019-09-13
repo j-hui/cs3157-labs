@@ -55,10 +55,13 @@ int main(void)
 	mpz_set_ui(a, sizeof(int) * 8);
 	do {
 		mpz_sub(a, a, b);
-		if (mpz_get_ui(a) < strlen(s))
-			printf("%c", s[strlen(s) - mpz_get_ui(a) - 1]);
-		else
+		if (mpz_get_ui(a) < strlen(s)) {
+			mpz_sub(a, a, b);
+			printf("%c", s[strlen(s) - mpz_get_ui(a)]);
+			mpz_add(a, a, b);
+		} else {
 			printf("0");
+		}
 
 		mpz_set_str(b, "4", 10);
 		mpz_tdiv_r(c, a, b);
