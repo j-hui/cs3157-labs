@@ -20,7 +20,7 @@ LD=gcc
 VER=6.1.2
 CFLAGS=-Igmp-$(VER)
 LDLIBS= -lgmp
-LDFLAGS= -Lgmp-$(VER)
+LDFLAGS= -Lgmp-$(VER)/.libs
 OBJS=convert.o
 
 default: convert
@@ -28,12 +28,14 @@ convert: $(OBJS) lib
 	$(LD) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
 $(OBJS): gmp-$(VER)/gmp.h
 
-lib: gmp-$(VER)/libgmp.la
+lib: gmp-$(VER)/.libs/libgmp.a
 gmp-$(VER): gmp-$(VER).tar.xz
 	tar xf $^
-gmp-$(VER)/gmp.h: gmp-$(VER)
-gmp-$(VER)/libgmp.la: gmp-$(VER) gmp-$(VER)/gmp.h
-	cd $^ && ./configure && make -j$$(nproc)
+gmp-$(VER)/gmp-h.in gmp-$(VER)/configure: gmp-$(VER)
+gmp-$(VER)/gmp.h: gmp-$(VER)/gmp-h.in gmp-$(VER)/configure
+	cd gmp-$(VER) && ./configure
+gmp-$(VER)/.libs/libgmp.a: gmp-$(VER) gmp-$(VER)/gmp.h
+	cd gmp-$(VER) && make -j$$(nproc)
 clean:
 	rm -rf *.o main convert a.out gmp-$(VER)
 .PHONY: clean default lib
