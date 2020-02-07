@@ -43,7 +43,7 @@ int main(void)
 		free(t);
 		if (mpz_cmp(b, c) > 0) {
 			printf("Negative number out of range\n");
-			return 0;
+			goto out;
 		} else {
 			t = malloc(sizeof(int) * 2 + 1);
 			snprintf(t, sizeof(int) * 2 + 1, "%x",
@@ -85,8 +85,9 @@ int main(void)
 			printf(" ");
 	} while (*++s);
 	printf("\n");
-
 	free(t);
+
+out:
 	mpz_clears(a, b, c, NULL);
 	return 0;
 }
