@@ -22,22 +22,35 @@
 
 int main(void)
 {
-	mpz_t a, b;
+	mpz_t a, b, c;
 	char *s, *t;
 
-	mpz_inits(a, b, NULL);
+	mpz_inits(a, b, c, NULL);
 
 	mpz_inp_str(a, NULL, 10);
 	s = mpz_get_str(NULL, 10, a);
 	printf("signed dec:   %s\n", s);
 	free(s);
 
+
 	mpz_set_str(b, "0", 10);
 	if (mpz_cmp(a, b) < 0) {
-		mpz_set_str(b, "0", 10);
-		mpz_set_str(b, "2", 10);
-		mpz_pow_ui(b, b, sizeof(int) * 8);
-		mpz_add(b, b, a);
+		mpz_abs(b, a);
+
+		t = malloc(sizeof(int) * 2 + 1);
+		snprintf(t, sizeof(int) * 2 + 1, "%x",
+				-1 & ~(1 << (sizeof(int) * 8 - 1)));
+		mpz_set_str(c, t, 16);
+		free(t);
+		if (mpz_cmp(b, c) > 0) {
+			printf("Negative number out of range\n");
+			return 0;
+		} else {
+			mpz_set_str(b, "0", 10);
+			mpz_set_str(b, "2", 10);
+			mpz_pow_ui(b, b, sizeof(int) * 8);
+			mpz_add(b, b, a);
+		}
 	} else {
 		mpz_set(b, a);
 	}
@@ -52,8 +65,12 @@ int main(void)
 	s = mpz_get_str(NULL, 2, b);
 	printf("binary:       ");
 
-	t = malloc(sizeof(int) * 8 + 1);
-	snprintf(t, sizeof(int) * 8 + 1, "%*s", sizeof(int) * 8, s);
+#define SIZE(s) (sizeof(int) * 8 > strlen(s) \
+		? sizeof(int) * 8 \
+		: strlen(s) + ((4 - (strlen(s) % 4)) % 4) \
+		)
+	t = malloc(1 + SIZE(s));
+	snprintf(t, SIZE(s) + 1, "%*s", SIZE(s), s);
 	free(s);
 	s = t;
 	do {
