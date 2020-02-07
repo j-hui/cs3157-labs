@@ -65,12 +65,11 @@ int main(void)
 	mpz_out_str(NULL, 10, b);
 	printf(" is ");
 	switch (prime(b)) {
-	case 0: printf("not"); break;
-	case 1: printf("probably"); break;
-	case 2: printf("certainly"); break;
+	case 0: printf("not "); break;
+	case 1: printf("probably "); break;
 	default: break;
 	}
-	printf(" a prime number\n");
+	printf("a prime number\n");
 
 	gcd(c, a, b);
 	mpz_set_str(d, "1", 10);
