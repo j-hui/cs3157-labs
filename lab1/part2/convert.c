@@ -32,7 +32,6 @@ int main(void)
 	printf("signed dec:   %s\n", s);
 	free(s);
 
-
 	mpz_set_str(b, "0", 10);
 	if (mpz_cmp(a, b) < 0) {
 		mpz_abs(b, a);
@@ -46,23 +45,27 @@ int main(void)
 			printf("Negative number out of range\n");
 			return 0;
 		} else {
-			mpz_set_str(b, "0", 10);
+			t = malloc(sizeof(int) * 2 + 1);
+			snprintf(t, sizeof(int) * 2 + 1, "%x",
+					(1 << (sizeof(int) * 8 - 1)));
+			mpz_set_str(c, t, 16);
+			free(t);
 			mpz_set_str(b, "2", 10);
-			mpz_pow_ui(b, b, sizeof(int) * 8);
-			mpz_add(b, b, a);
+			mpz_addmul(a, b, c);
 		}
-	} else {
-		mpz_set(b, a);
 	}
-	s = mpz_get_str(NULL, 10, b);
+	/* else { */
+	/* 	mpz_set(b, a); */
+	/* } */
+	s = mpz_get_str(NULL, 10, a);
 	printf("unsigned dec: %s\n", s);
 	free(s);
 
-	s = mpz_get_str(NULL, 16, b);
+	s = mpz_get_str(NULL, 16, a);
 	printf("hex:          %s\n", s);
 	free(s);
 
-	s = mpz_get_str(NULL, 2, b);
+	s = mpz_get_str(NULL, 2, a);
 	printf("binary:       ");
 
 #define SIZE(s) (sizeof(int) * 8 > strlen(s) \
@@ -84,6 +87,6 @@ int main(void)
 	printf("\n");
 
 	free(t);
-	mpz_clears(a, b, NULL);
+	mpz_clears(a, b, c, NULL);
 	return 0;
 }
