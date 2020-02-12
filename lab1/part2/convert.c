@@ -22,10 +22,10 @@
 
 int main(void)
 {
-	mpz_t a, b, c;
+	mpz_t a, b;
 	char *s, *t;
 
-	mpz_inits(a, b, c, NULL);
+	mpz_inits(a, b, NULL);
 
 	mpz_inp_str(a, NULL, 10);
 	s = mpz_get_str(NULL, 10, a);
@@ -34,29 +34,21 @@ int main(void)
 
 	mpz_set_str(b, "0", 10);
 	if (mpz_cmp(a, b) < 0) {
-		mpz_abs(b, a);
-
 		t = malloc(sizeof(int) * 2 + 1);
 		snprintf(t, sizeof(int) * 2 + 1, "%x",
 				-1 & ~(1 << (sizeof(int) * 8 - 1)));
-		mpz_set_str(c, t, 16);
+		mpz_set_str(b, t, 16);
+		if (mpz_cmpabs(a, b) > 0)
+			printf("Warning: negative number out of range\n");
+
+		snprintf(t, sizeof(int) * 2 + 1, "%x",
+				(1 << (sizeof(int) * 8 - 1)));
+		mpz_set_str(b, t, 16);
+		mpz_mod(a, a, b);
+		mpz_setbit(a, sizeof(int) * 8 - 1);
 		free(t);
-		if (mpz_cmp(b, c) > 0) {
-			printf("Negative number out of range\n");
-			goto out;
-		} else {
-			t = malloc(sizeof(int) * 2 + 1);
-			snprintf(t, sizeof(int) * 2 + 1, "%x",
-					(1 << (sizeof(int) * 8 - 1)));
-			mpz_set_str(c, t, 16);
-			free(t);
-			mpz_set_str(b, "2", 10);
-			mpz_addmul(a, b, c);
-		}
 	}
-	/* else { */
-	/* 	mpz_set(b, a); */
-	/* } */
+
 	s = mpz_get_str(NULL, 10, a);
 	printf("unsigned dec: %s\n", s);
 	free(s);
@@ -87,7 +79,6 @@ int main(void)
 	printf("\n");
 	free(t);
 
-out:
-	mpz_clears(a, b, c, NULL);
+	mpz_clears(a, b, NULL);
 	return 0;
 }
