@@ -160,5 +160,5 @@ while true; do
                 cont="yes"
             fi
         fi
-    done > "$server_pipe"
+    done > "$server_pipe" || true
 done
