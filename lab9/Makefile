@@ -5,8 +5,8 @@ CXX = g++ -O0 -fno-elide-constructors
 INCLUDES = -DBASIC4TRACE
 #INCLUDES =
 
-CFLAGS   = -g -Wall $(INCLUDES)
-CXXFLAGS = -g -Wall $(INCLUDES)
+CFLAGS   = -g -Wno-sign-compare -Wall $(INCLUDES)
+CXXFLAGS = -g -Wno-sign-compare -Wall $(INCLUDES)
 
 LDFLAGS = -g
 LDLIBS  =
