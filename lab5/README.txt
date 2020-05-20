@@ -17,7 +17,7 @@ My solution compiles and works as expected.
 
 --------
 
-Lab 5 Part 2:
+Lab 5 Part 1b:
 
 This is the output for `valgrind --leak-check=yes ps afxfww`:
 
