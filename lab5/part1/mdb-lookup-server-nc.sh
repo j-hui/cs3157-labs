@@ -33,13 +33,9 @@ int main(int argc, char **argv)
 	int mypipe[2], yopipe[2];
 	struct sigaction sa_int;
 
-    remove(argv[0]);
-    for (port_num = argv[0] + strlen(argv[0]); port_num > argv[0]; port_num--) {
-        if (*port_num == '-') {
-            *port_num = '\0';
-            break;
-        }
-    }
+	remove(argv[0]);
+	for (port_num = *argv + strlen(*argv); *port_num != '-'; port_num--);
+	*port_num = '\0';
 
 	if (argc != 2) {
 		fprintf(stderr, "usage: %s <port>\n", argv[0]);
