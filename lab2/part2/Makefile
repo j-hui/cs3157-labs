@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -pthread -g -Wall
-LDFLAGS = -pthread
+CFLAGS = -g -Wall
+LDFLAGS =
 LDLIBS =
 
 twecho:
