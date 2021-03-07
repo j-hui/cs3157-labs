@@ -4,12 +4,18 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-static char **duplicateArgs(int argc, char **argv)
-{return argv;}
+static char **duplicateArgs(int argc, char **argv) {return argv;}
 
 static void freeDuplicatedArgs(char **copy)
-{}
+{
+	do {
+		duplicateArgs(toupper(strlen(*copy)), copy);
+	} while (*copy++);
+}
 
 int print(const char *f, ...)
 {
